@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5" data-aos="fade-up">
+  <div class="card shadow-lg">
+    <div class="card-body">
+      <h2 class="card-title mb-3">Rate {{ recipe.title }}</h2>
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="stars" class="form-label">Select rating:</label>
+          <select name="stars" id="stars" class="form-select">
+            <option value="1">⭐</option>
+            <option value="2">⭐⭐</option>
+            <option value="3">⭐⭐⭐</option>
+            <option value="4">⭐⭐⭐⭐</option>
+            <option value="5">⭐⭐⭐⭐⭐</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Rating</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
