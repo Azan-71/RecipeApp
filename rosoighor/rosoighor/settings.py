@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-1!=7**0tsxbr)#u7=+o)6vv0a5v$hecd0g@chu1su8d7l(q48x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "rosoighor.up.railway.app"]
 
 
 # Application definition
@@ -133,3 +133,5 @@ LOGIN_REDIRECT_URL = 'homepage'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 LOGIN_URL = '/login/'
+SITE_ID = 1
+
