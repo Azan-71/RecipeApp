@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load rating_filters %}
+
+{% block content %}
+<div class="container mt-5" data-aos="fade-up">
+  <div class="card shadow-lg">
+    <div class="card-body">
+      <h2 class="card-title">{{ recipe.title }}</h2>
+      <p class="lead">{{ recipe.description }}</p>
+
+      <!-- Ratings -->
+      <div class="mt-4" data-aos="fade-right">
+        <h4>Ratings</h4>
+        {% if recipe.ratings.all %}
+          <p>Average Rating: {{ recipe.ratings.all|average:"stars" }} / 5</p>
+          <p>
+            {% with avg=recipe.ratings.all|average:"stars" %}
+              {% for i in "12345" %}
+                {% if forloop.counter <= avg %}
+                  ⭐
+                {% else %}
+                  ☆
+                {% endif %}
+              {% endfor %}
+            {% endwith %}
+          </p>
+        {% else %}
+          <p>No ratings yet.</p>
+        {% endif %}
+        <a href="{% url 'add_rating' recipe.id %}" class="btn btn-outline-primary btn-sm">Rate this Recipe</a>
+      </div>
+
+      <!-- Comments -->
+      <div class="mt-4">
+        <h4>Comments</h4>
+        <div class="list-group">
+          {% for comment in recipe.comments.all %}
+            <div class="list-group-item shadow-sm mb-2" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+              <strong>{{ comment.user.username }}</strong>: {{ comment.text }}
+              <br><small class="text-muted">{{ comment.created_at|date:"M d, Y H:i" }}</small>
+            </div>
+          {% empty %}
+            <div class="list-group-item">No comments yet. Be the first!</div>
+          {% endfor %}
+        </div>
+        <a href="{% url 'add_comment' recipe.id %}" class="btn btn-outline-secondary btn-sm mt-2">Add Comment</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

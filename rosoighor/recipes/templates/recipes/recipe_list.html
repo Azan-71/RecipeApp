@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4" data-aos="fade-right">All Recipes</h1>
+  <div class="row">
+    {% for recipe in recipes %}
+    <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+      <div class="card h-100 shadow-sm">
+        {% if recipe.photo %}
+          <img src="{{ recipe.photo.url }}" class="card-img-top" alt="{{ recipe.title }}">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ recipe.title }}</h5>
+          <p class="card-text">{{ recipe.description|truncatewords:20 }}</p>
+          <small class="text-muted">By {{ recipe.author.username }}</small>
+        </div>
+        <div class="card-footer text-center">
+          <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary btn-sm">View Recipe</a>
+          <a href="{% url 'add_story_for_recipe' recipe.id %}" class="btn btn-outline-success btn-sm">Add Story</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <a href="{% url 'add_recipe' %}" class="btn btn-success mt-3">Add New Recipe</a>
+</div>
+
+<!-- Fun Sound Effect List -->
+<div class="container mt-5">
+  <h2 class="mb-3" data-aos="fade-right">Recipe Sounds</h2>
+  <ul class="list-group">
+    {% for recipe in recipes %}
+      <li class="list-group-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+        <a href="{% url 'recipe_detail' recipe.id %}" onclick="playFoodSound('{{ recipe.food_type }}')">
+          {{ recipe.title }} ({{ recipe.food_type }})
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<audio id="recipeSound"></audio>
+
+<script>
+  function playFoodSound(foodType) {
+    const audio = document.getElementById("recipeSound");
+    let soundMap = {
+      "fried": "/static/sounds/sizzle.mp3",
+      "boiled": "/static/sounds/boil.mp3",
+      "grilled": "/static/sounds/grill.mp3",
+      "baked": "/static/sounds/bake.mp3",
+      "raw": "/static/sounds/chop.mp3"
+    };
+    audio.src = soundMap[foodType] || "";
+    if (audio.src) {
+      audio.play();
+    }
+  }
+</script>
+{% endblock %}

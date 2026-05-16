@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4 text-center" data-aos="fade-up">Trending Recipe Stories</h1>
+
+  <div class="d-flex overflow-auto p-2 bg-light rounded shadow-sm">
+    {% for story in stories %}
+    <div class="card me-3 shadow-sm" style="min-width: 200px; max-width: 200px;" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:100 }}">
+      <!-- Progress bar -->
+      <div class="progress" style="height: 4px; position: absolute; top: 0; left: 0; width: 100%;">
+        <div class="progress-bar bg-success" role="progressbar" style="width: 0%;"></div>
+      </div>
+      {% if story.video %}
+        <video class="story-video card-img-top" controls muted preload="metadata" style="height: 280px; object-fit: cover;">
+          <source src="{{ story.video.url }}" type="video/mp4">
+        </video>
+      {% elif story.photo %}
+        <img src="{{ story.photo.url }}" class="card-img-top" style="height: 280px; object-fit: cover;" alt="Story photo">
+      {% endif %}
+      <div class="card-body text-center">
+        <h6 class="card-title">{{ story.recipe.title }}</h6>
+        <small class="text-muted">By {{ story.user.username }}</small>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const videos = document.querySelectorAll(".story-video");
+
+    videos.forEach((video, index) => {
+      const progressBar = video.parentElement.querySelector(".progress-bar");
+
+      // Update progress bar as video plays
+      video.addEventListener("timeupdate", function() {
+        const percent = (video.currentTime / video.duration) * 100;
+        progressBar.style.width = percent + "%";
+      });
+
+      // Auto-play next video when finished
+      video.addEventListener("ended", function() {
+        progressBar.style.width = "100%"; // ensure full bar
+        const nextVideo = videos[index + 1];
+        if (nextVideo) {
+          nextVideo.play();
+          nextVideo.scrollIntoView({ behavior: "smooth", inline: "center" });
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}
