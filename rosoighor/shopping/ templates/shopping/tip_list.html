@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4 text-center" data-aos="fade-up">Freshness Checker</h1>
+  <div class="row">
+    {% for tip in tips %}
+    <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ tip.item_name }}</h5>
+          <p class="mb-2">✅ <strong>Fresh signs:</strong> {{ tip.fresh_signs }}</p>
+          <p class="mb-2">❌ <strong>Bad signs:</strong> {{ tip.bad_signs }}</p>
+          <p class="mb-2">💡 <strong>Pro tip:</strong> {{ tip.pro_tip }}</p>
+          <p class="mb-0">🌱 <strong>Best season:</strong> {{ tip.best_season }}</p>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center">No tips available yet. Add some freshness wisdom!</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
