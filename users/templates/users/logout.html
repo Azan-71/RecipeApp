@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height:70vh;">
+  <div class="card shadow-lg p-4 rounded-4 text-center" style="max-width: 420px; width:100%;" data-aos="zoom-in">
+    <h2 class="fw-bold mb-3">👋 You have been logged out</h2>
+    <p class="mb-4 text-muted">Thanks for visiting RosoiGhor. Come back soon!</p>
+    <a href="{% url 'login' %}" class="btn btn-primary w-100 fw-bold" data-aos="fade-up">
+      🔑 Login Again
+    </a>
+  </div>
+</div>
+{% endblock %}
